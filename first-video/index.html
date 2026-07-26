@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Microsoft YaHei";
+        src: local("Microsoft YaHei");
+      }
+      @font-face {
+        font-family: "PingFang SC";
+        src: local("PingFang SC");
+      }
+      @font-face {
+        font-family: "KaiTi";
+        src: local("KaiTi");
+      }
+      @font-face {
+        font-family: "STKaiti";
+        src: local("STKaiti");
+      }
+      @font-face {
+        font-family: "Songti SC";
+        src: local("Songti SC");
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #f4ecd9;
+      }
+      body {
+        font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        color: #20332c;
+      }
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #f4ecd9;
+      }
+
+      .bg {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(180deg, rgba(244, 236, 217, 0.04), rgba(32, 51, 44, 0.12)),
+          url("assets/paper-ink-bg.png");
+        background-size: cover;
+        background-position: center;
+        filter: saturate(0.94) contrast(1.02);
+      }
+
+      .warmth {
+        position: absolute;
+        width: 760px;
+        height: 760px;
+        right: -260px;
+        top: 200px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(191, 125, 55, 0.28), rgba(191, 125, 55, 0));
+        mix-blend-mode: multiply;
+      }
+
+      .ink-field {
+        position: absolute;
+        left: -220px;
+        bottom: -180px;
+        width: 720px;
+        height: 520px;
+        border-radius: 48%;
+        background: radial-gradient(circle, rgba(83, 103, 86, 0.23), rgba(83, 103, 86, 0));
+        filter: blur(20px);
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 168px 96px 150px;
+        gap: 36px;
+        opacity: 0;
+      }
+
+      .scene:first-of-type {
+        opacity: 1;
+      }
+
+      .kicker {
+        width: fit-content;
+        max-width: 100%;
+        padding: 12px 22px;
+        border: 1px solid rgba(32, 51, 44, 0.42);
+        color: #43594d;
+        background: rgba(248, 242, 229, 0.62);
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+
+      .title {
+        max-width: 880px;
+        color: #20332c;
+        font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+        font-size: 118px;
+        font-weight: 900;
+        line-height: 1.08;
+      }
+
+      .line {
+        max-width: 840px;
+        color: #20332c;
+        font-size: 62px;
+        font-weight: 800;
+        line-height: 1.23;
+      }
+
+      .body {
+        max-width: 820px;
+        color: #2d443a;
+        font-size: 39px;
+        font-weight: 350;
+        line-height: 1.55;
+      }
+
+      .amount {
+        display: flex;
+        align-items: baseline;
+        gap: 18px;
+        margin-top: 10px;
+        color: #20332c;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .amount strong {
+        font-size: 168px;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .amount span {
+        font-size: 42px;
+        font-weight: 700;
+      }
+
+      .rule-list {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 830px;
+      }
+
+      .rule {
+        padding: 26px 30px;
+        border: 1px solid rgba(67, 89, 77, 0.34);
+        background: rgba(250, 246, 235, 0.7);
+        color: #20332c;
+        font-size: 38px;
+        font-weight: 650;
+        line-height: 1.35;
+      }
+
+      .small {
+        color: #536756;
+        font-size: 31px;
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      .seal {
+        width: 172px;
+        height: 172px;
+        border-radius: 50%;
+        border: 3px solid #7a3f34;
+        display: grid;
+        place-items: center;
+        color: #7a3f34;
+        font-family: "KaiTi", "STKaiti", serif;
+        font-size: 42px;
+        font-weight: 900;
+        line-height: 1.05;
+        transform: rotate(-8deg);
+      }
+
+      .footer {
+        position: absolute;
+        left: 96px;
+        right: 96px;
+        bottom: 88px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        color: #20332c;
+        font-size: 25px;
+        font-weight: 600;
+      }
+
+      .footer span {
+        padding: 8px 12px;
+        background: rgba(250, 246, 235, 0.78);
+      }
+
+      .transition {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        opacity: 0;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(255, 250, 233, 0.88), rgba(255, 250, 233, 0) 38%),
+          linear-gradient(90deg, rgba(190, 126, 61, 0), rgba(190, 126, 61, 0.2), rgba(190, 126, 61, 0));
+        filter: blur(10px);
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-ijvk" id="root" data-composition-id="main" data-start="0" data-duration="35" data-width="1080" data-height="1920">
+      <div data-hf-id="hf-fatw" class="bg" data-layout-ignore=""></div>
+      <div data-hf-id="hf-6z16" class="warmth" data-layout-ignore=""></div>
+      <div data-hf-id="hf-19za" class="ink-field" data-layout-ignore=""></div>
+
+      <section data-hf-id="hf-pu0y" class="scene scene-1">
+        <div data-hf-id="hf-pjrr" class="kicker">敏之诗｜第一条公开说明</div>
+        <h1 data-hf-id="hf-vhd4" class="title">我想开始帮助一些诗人</h1>
+        <p data-hf-id="hf-k1aj" class="body">能力很小，所以先从一件具体的事开始。</p>
+      </section>
+
+      <section data-hf-id="hf-job5" class="scene scene-2">
+        <div data-hf-id="hf-e86q" class="kicker">第一阶段</div>
+        <div data-hf-id="hf-6lfs" class="line">每月支持一位可能正遇到经济困难的诗人</div>
+        <div data-hf-id="hf-6p1w" class="amount"><strong data-hf-id="hf-4gfn">300</strong><span data-hf-id="hf-gcs3">元人民币 / 月</span></div>
+      </section>
+
+      <section data-hf-id="hf-iwnc" class="scene scene-3">
+        <div data-hf-id="hf-wzds" class="kicker">暂定申请边界</div>
+        <div data-hf-id="hf-tb5b" class="rule-list">
+          <div data-hf-id="hf-iwea" class="rule">有诗歌作品发表于正式刊物或可信公开平台</div>
+          <div data-hf-id="hf-1cxp" class="rule">正在经历现实经济压力</div>
+          <div data-hf-id="hf-xo10" class="rule">本人自愿申请，并同意必要信息核验</div>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-eyjb" class="scene scene-4">
+        <div data-hf-id="hf-07fc" class="kicker">项目铁律</div>
+        <div data-hf-id="hf-2hol" class="line">公开规则、流程、进展、资金去向</div>
+        <p data-hf-id="hf-apxq" class="body">暂不接受公众捐款。不消费困境。不公开敏感隐私。标准会在记录中修正。</p>
+      </section>
+
+      <section data-hf-id="hf-b0fa" class="scene scene-5">
+        <div data-hf-id="hf-54uf" class="seal">从<br data-hf-id="hf-x5px">今天<br data-hf-id="hf-rsrt">开始</div>
+        <div data-hf-id="hf-17h3" class="line">如果你认识这样的诗人，请把这条视频转给 TA。</div>
+        <p data-hf-id="hf-iyh5" class="small">项目资料会同步公开在 GitHub。暂不接受公众捐款，先用个人能力试运行。</p>
+      </section>
+
+      <div data-hf-id="hf-yh7l" class="footer">
+        <span data-hf-id="hf-9iss">敏之诗</span>
+        <span data-hf-id="hf-d9ya">小额、透明、长期</span>
+      </div>
+      <div data-hf-id="hf-4ifl" class="transition"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      function hasTarget(selector) {
+        return document.querySelectorAll(selector).length > 0;
+      }
+
+      function fromIfFound(selector, vars, at) {
+        if (hasTarget(selector)) {
+          tl.from(selector, vars, at);
+        }
+      }
+
+      function enterScene(selector, at) {
+        fromIfFound(`${selector} .kicker`, { y: 38, opacity: 0, duration: 0.64, ease: "power3.out" }, at + 0.18);
+        fromIfFound(`${selector} .title, ${selector} .line`, { y: 62, opacity: 0, scale: 0.985, duration: 0.82, ease: "expo.out" }, at + 0.5);
+        fromIfFound(`${selector} .body, ${selector} .small`, { y: 34, opacity: 0, duration: 0.7, ease: "sine.out" }, at + 1.0);
+        fromIfFound(`${selector} .amount`, { x: -34, opacity: 0, duration: 0.78, ease: "back.out(1.35)" }, at + 1.0);
+        fromIfFound(`${selector} .rule`, { x: -46, opacity: 0, scale: 0.98, duration: 0.58, stagger: 0.2, ease: "power2.out" }, at + 0.76);
+        fromIfFound(`${selector} .seal`, { rotation: -22, scale: 0.78, opacity: 0, duration: 0.78, ease: "elastic.out(1, 0.72)" }, at + 0.34);
+      }
+
+      function revealScene(selector, previousSelector, at) {
+        tl.to(".transition", { opacity: 1, x: 220, duration: 0.28, ease: "sine.inOut" }, at);
+        tl.set(selector, { opacity: 1 }, at + 0.18);
+        tl.set(previousSelector, { opacity: 0 }, at + 0.2);
+        tl.fromTo(selector, { filter: "blur(18px)" }, { filter: "blur(0px)", duration: 0.72, ease: "sine.out" }, at + 0.18);
+        tl.to(".transition", { opacity: 0, x: 520, duration: 0.52, ease: "sine.inOut" }, at + 0.32);
+        tl.set(".transition", { x: 0 }, at + 0.9);
+      }
+
+      enterScene(".scene-1", 0);
+      revealScene(".scene-2", ".scene-1", 6.2);
+      enterScene(".scene-2", 6.2);
+      revealScene(".scene-3", ".scene-2", 13.0);
+      enterScene(".scene-3", 13.0);
+      revealScene(".scene-4", ".scene-3", 20.4);
+      enterScene(".scene-4", 20.4);
+      revealScene(".scene-5", ".scene-4", 27.1);
+      enterScene(".scene-5", 27.1);
+
+      tl.from(".footer", { y: 26, opacity: 0, duration: 0.7, ease: "power2.out" }, 1.4);
+      tl.to("#root", { opacity: 0, duration: 0.8, ease: "sine.inOut" }, 34.0);
+      tl.fromTo(".bg", { scale: 1.06 }, { scale: 1.1, duration: 35, ease: "none" }, 0);
+      tl.to(".warmth", { scale: 1.08, x: -38, y: 28, duration: 35, ease: "sine.inOut" }, 0);
+      tl.to(".ink-field", { scale: 1.08, x: 42, y: -24, duration: 35, ease: "sine.inOut" }, 0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

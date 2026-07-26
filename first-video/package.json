@@ -1,0 +1,15 @@
+{
+  "name": "first-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.7.72 preview",
+    "check": "npx --yes hyperframes@0.7.72 check",
+    "render": "npx --yes hyperframes@0.7.72 render",
+    "publish": "npx --yes hyperframes@0.7.72 publish"
+  },
+  "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^2.1.2"
+  }
+}
