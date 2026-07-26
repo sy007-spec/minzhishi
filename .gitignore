@@ -23,6 +23,19 @@ exports/
 *.wav
 *.mp3
 
+# Private beneficiary records and signed materials.
+private/
+**/private/
+records/private/
+beneficiaries/
+agreements/signed/
+docs/signed/
+*签署版*
+*身份证*
+*银行卡*
+*转账凭证*
+*收款信息*
+
 # Local caches and logs
 .cache/
 **/.cache/
