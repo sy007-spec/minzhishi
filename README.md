@@ -39,6 +39,10 @@
 
 具体合规流程见：[docs/02-funding-compliance.md](docs/02-funding-compliance.md)。协议模板见：[docs/templates/poet-support-agreement.md](docs/templates/poet-support-agreement.md)。
 
+## 资金转账
+
+第一阶段所有资助款只能来自发起人本人合法收入，并通过发起人本人实名账户直接转给受资助人。不得向公众收款、不得代收第三方资金、不得建立资金池、不得发布公众收款码。具体转账备注、凭证保存、公开边界和暂停扩张条件见：[docs/03-money-transfer-compliance.md](docs/03-money-transfer-compliance.md)。
+
 ## 当前进展
 
 - 第 1 条公开短视频已制作：`first-video/`
@@ -46,6 +50,7 @@
 - 项目工作规则与铁律已整理：`docs/00-project-rules.md`
 - 初版组织架构草案已整理：`docs/01-operating-model.md`
 - 资助期限、合规流程和协议模板已整理：`docs/02-funding-compliance.md`
+- 资金转账与法律红线操作方案已整理：`docs/03-money-transfer-compliance.md`
 
 ## 运维方式
 
