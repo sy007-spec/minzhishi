@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MZS-2026-001 公开视频</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: #f6f3ec;
+        font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      }
+
+      @font-face {
+        font-family: "Noto Serif SC";
+        src: local("Noto Serif SC"), local("Songti SC"), local("SimSun");
+      }
+
+      @font-face {
+        font-family: "Noto Sans SC";
+        src: local("Noto Sans SC"), local("Microsoft YaHei"), local("SimHei");
+      }
+
+      @font-face {
+        font-family: "Songti SC";
+        src: local("Songti SC"), local("SimSun");
+      }
+
+      @font-face {
+        font-family: "SimSun";
+        src: local("SimSun");
+      }
+
+      @font-face {
+        font-family: "Microsoft YaHei";
+        src: local("Microsoft YaHei");
+      }
+
+      #support-video-root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        color: #2d2a27;
+      }
+
+      .paper {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(rgba(246, 243, 236, 0.86), rgba(246, 243, 236, 0.9)),
+          radial-gradient(circle at 24% 12%, rgba(160, 166, 151, 0.18), transparent 28%),
+          radial-gradient(circle at 82% 82%, rgba(173, 141, 112, 0.14), transparent 32%),
+          url("./assets/paper-ink-bg.png");
+        background-size: cover;
+      }
+
+      .grain {
+        position: absolute;
+        inset: 0;
+        opacity: 0.22;
+        background-image:
+          linear-gradient(rgba(78, 74, 66, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(78, 74, 66, 0.08) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 74%, transparent 100%);
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+
+      .safe {
+        position: absolute;
+        left: 86px;
+        right: 86px;
+        top: 145px;
+        bottom: 145px;
+      }
+
+      .kicker {
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 30px;
+        color: #726b61;
+        letter-spacing: 0;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: 110px;
+        max-width: 820px;
+        font-size: 76px;
+        line-height: 1.2;
+        font-weight: 500;
+      }
+
+      h2 {
+        font-size: 56px;
+        line-height: 1.26;
+        font-weight: 500;
+      }
+
+      .body {
+        margin-top: 36px;
+        max-width: 760px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 32px;
+        line-height: 1.72;
+        color: #4b4640;
+      }
+
+      .number {
+        margin-top: 130px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 118px;
+        line-height: 1;
+        font-weight: 300;
+        color: #5d584f;
+      }
+
+      .terms {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 110px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .term {
+        border-top: 1px solid rgba(74, 70, 63, 0.22);
+        padding-top: 20px;
+      }
+
+      .term strong {
+        display: block;
+        font-size: 38px;
+        font-weight: 500;
+      }
+
+      .term span {
+        display: block;
+        margin-top: 10px;
+        font-size: 24px;
+        color: #71695f;
+      }
+
+      .quote {
+        position: absolute;
+        left: 90px;
+        right: 90px;
+        top: 455px;
+        font-size: 46px;
+        line-height: 1.78;
+        font-weight: 400;
+        color: #36322d;
+      }
+
+      .quote.small {
+        top: 380px;
+        font-size: 42px;
+        line-height: 1.9;
+      }
+
+      .quote span {
+        display: block;
+      }
+
+      .caption {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        bottom: 190px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 26px;
+        line-height: 1.6;
+        color: #746d63;
+      }
+
+      .seal {
+        position: absolute;
+        right: 88px;
+        bottom: 96px;
+        width: 112px;
+        height: 112px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(130, 52, 38, 0.45);
+        color: #8c382d;
+        font-size: 28px;
+        line-height: 1.1;
+        text-align: center;
+        font-family: "Noto Serif SC", "Songti SC", serif;
+      }
+
+      .rule-list {
+        margin-top: 62px;
+        display: grid;
+        gap: 30px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 35px;
+        line-height: 1.45;
+        color: #47423b;
+      }
+
+      .rule {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 22px;
+        align-items: start;
+      }
+
+      .dot {
+        width: 18px;
+        height: 18px;
+        margin-top: 17px;
+        border-radius: 50%;
+        background: #8b5548;
+      }
+
+      .footer {
+        position: absolute;
+        left: 86px;
+        right: 86px;
+        bottom: 92px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 24px;
+        line-height: 1.55;
+        color: #776f65;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-hnas" id="support-video-root" data-composition-id="support-video-001-youxx" data-start="0" data-duration="42" data-fps="30" data-width="1080" data-height="1920">
+      <div data-hf-id="hf-2ava" class="paper"></div>
+      <div data-hf-id="hf-h60x" class="grain"></div>
+
+      <section data-hf-id="hf-u9zk" id="scene-intro" class="clip scene scene-1" data-start="0" data-duration="7">
+        <div data-hf-id="hf-zbmn" class="safe">
+          <p data-hf-id="hf-kkzp" class="kicker">敏之诗 / MZS-2026-001</p>
+          <h1 data-hf-id="hf-hwli">第一位诗人支持关系准备建立</h1>
+          <p data-hf-id="hf-wbyf" class="body">公开资料使用脱敏称呼：游XX先生。真实身份、收款信息、协议签署版不公开。</p>
+          <div data-hf-id="hf-oypi" class="seal">敏之<br data-hf-id="hf-x5px">诗</div>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-x2ta" id="scene-terms" class="clip scene scene-2" data-start="7" data-duration="8">
+        <div data-hf-id="hf-nz8f" class="safe">
+          <p data-hf-id="hf-y72x" class="kicker">第一期小额支持</p>
+          <div data-hf-id="hf-3nvp" class="number">6个月</div>
+          <div data-hf-id="hf-wyah" class="terms">
+            <div data-hf-id="hf-d8se" class="term"><strong data-hf-id="hf-vp8f">300元/月</strong><span data-hf-id="hf-rknb">发起人个人合法收入</span></div>
+            <div data-hf-id="hf-nwrm" class="term"><strong data-hf-id="hf-sz8a">不募捐</strong><span data-hf-id="hf-j7d6">不代收第三方资金</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-iv5w" id="scene-first-quote" class="clip scene scene-3" data-start="15" data-duration="8">
+        <div data-hf-id="hf-nkxe" class="safe">
+          <p data-hf-id="hf-c8z1" class="kicker">诗歌短摘句</p>
+          <p data-hf-id="hf-aumd" class="quote">“我尝试在上面找到立足之点。”</p>
+          <p data-hf-id="hf-k8b5" class="caption">摘自受资助人提供资料《野兽和花朵》。作品著作权仍归作者所有。</p>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-olhl" id="scene-second-quote" class="clip scene scene-4" data-start="23" data-duration="10">
+        <div data-hf-id="hf-n6md" class="safe">
+          <p data-hf-id="hf-4r35" class="kicker">诗歌短摘句</p>
+          <p data-hf-id="hf-rk6s" class="quote small"><span data-hf-id="hf-czhv">“紫藤开在这个闷热的午后</span><span data-hf-id="hf-m6wr">街上一辆洒水车轰隆驶过</span><span data-hf-id="hf-1yc8">淡紫色的风铃声</span><span data-hf-id="hf-eu9o">在我心头荡漾开一丝凉意”</span></p>
+          <p data-hf-id="hf-ulze" class="caption">仅展示短摘句；不公开困难细节，不消费个人处境。</p>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-n0qp" id="scene-rules" class="clip scene scene-5" data-start="33" data-duration="9">
+        <div data-hf-id="hf-pyrk" class="safe">
+          <p data-hf-id="hf-376f" class="kicker">公开规则</p>
+          <h2 data-hf-id="hf-bszg">让帮助保持清楚，也保持边界</h2>
+          <div data-hf-id="hf-tb5b" class="rule-list">
+            <div data-hf-id="hf-a46i" class="rule"><span data-hf-id="hf-9gry" class="dot"></span><span data-hf-id="hf-qveb">不是工资、稿费、借款或版权交易</span></div>
+            <div data-hf-id="hf-ya9a" class="rule"><span data-hf-id="hf-zcc2" class="dot"></span><span data-hf-id="hf-kqtn">不要求感谢、宣传、站台或交稿</span></div>
+            <div data-hf-id="hf-yokb" class="rule"><span data-hf-id="hf-zqn3" class="dot"></span><span data-hf-id="hf-aza3">公开资料永久脱敏保存在 GitHub</span></div>
+          </div>
+          <p data-hf-id="hf-qhcc" class="footer">敏之诗第一阶段暂不接受公众捐款。所有敏感材料只做内部留存。</p>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const root = document.querySelector('[data-composition-id="support-video-001-youxx"]');
+      const id = root.dataset.compositionId;
+      const tl = gsap.timeline({ paused: true });
+
+      gsap.set(".scene .safe", { opacity: 0, y: 26 });
+      gsap.set(".seal", { opacity: 0, scale: 0.92 });
+      gsap.set(".quote", { opacity: 0, y: 22 });
+      gsap.set(".term", { opacity: 0, y: 18 });
+      gsap.set(".rule", { opacity: 0, y: 16 });
+
+      const enterScene = (selector, at) => {
+        tl.to(`${selector} .safe`, { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }, at);
+        tl.to(`${selector} .safe`, { opacity: 0, y: -18, duration: 0.8, ease: "power2.in" }, at + Number(document.querySelector(selector).dataset.duration) - 0.9);
+      };
+
+      enterScene(".scene-1", 0.2);
+      tl.to(".scene-1 .seal", { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, 1.6);
+
+      enterScene(".scene-2", 7.2);
+      tl.to(".scene-2 .term", { opacity: 1, y: 0, duration: 0.8, stagger: 0.16, ease: "power2.out" }, 9.8);
+
+      enterScene(".scene-3", 15.2);
+      tl.to(".scene-3 .quote", { opacity: 1, y: 0, duration: 1.1, ease: "power2.out" }, 16.5);
+
+      enterScene(".scene-4", 23.2);
+      tl.to(".scene-4 .quote", { opacity: 1, y: 0, duration: 1.1, ease: "power2.out" }, 24.4);
+
+      enterScene(".scene-5", 33.2);
+      tl.to(".scene-5 .rule", { opacity: 1, y: 0, duration: 0.65, stagger: 0.18, ease: "power2.out" }, 36.0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[id] = tl;
+    </script>
+  </body>
+</html>

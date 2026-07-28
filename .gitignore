@@ -13,6 +13,8 @@ exports/
 **/exports/
 .hyperframes/
 **/.hyperframes/
+.thumbnails/
+**/.thumbnails/
 
 # Large media deliverables should be regenerated or stored outside Git.
 *.mp4
@@ -27,7 +29,7 @@ exports/
 private/
 **/private/
 records/private/
-beneficiaries/
+private/beneficiaries/
 agreements/signed/
 docs/signed/
 *签署版*

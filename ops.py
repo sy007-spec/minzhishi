@@ -17,8 +17,21 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-VIDEO_DIR = ROOT / "first-video"
-DEFAULT_OUTPUT = VIDEO_DIR / "renders" / "minzhishi-launch-001.mp4"
+VIDEO_PROJECTS = {
+    "first-video": {
+        "dir": ROOT / "first-video",
+        "output": "minzhishi-launch-001.mp4",
+        "frames": ("00:00:02", "00:00:15", "00:00:29"),
+    },
+    "support-video-001-youxx": {
+        "dir": ROOT / "support-video-001-youxx",
+        "output": "mzs-2026-001-youxx-public.mp4",
+        "frames": ("00:00:03", "00:00:18", "00:00:28", "00:00:38"),
+    },
+}
+DEFAULT_PROJECT = "first-video"
+VIDEO_DIR = VIDEO_PROJECTS[DEFAULT_PROJECT]["dir"]
+DEFAULT_OUTPUT = VIDEO_DIR / "renders" / VIDEO_PROJECTS[DEFAULT_PROJECT]["output"]
 FRAME_TIMES = ("00:00:02", "00:00:15", "00:00:29")
 
 
@@ -31,24 +44,43 @@ def npm_cmd() -> str:
     return "npm.cmd" if os.name == "nt" else "npm"
 
 
-def ensure_video_dir() -> None:
-    if not VIDEO_DIR.exists():
-        raise SystemExit(f"Missing video project: {VIDEO_DIR}")
+def project_dir(args: argparse.Namespace) -> Path:
+    name = getattr(args, "project", DEFAULT_PROJECT)
+    if name not in VIDEO_PROJECTS:
+        choices = ", ".join(sorted(VIDEO_PROJECTS))
+        raise SystemExit(f"Unknown video project: {name}. Choices: {choices}")
+    return VIDEO_PROJECTS[name]["dir"]
 
 
-def ensure_deps() -> None:
-    ensure_video_dir()
-    node_modules = VIDEO_DIR / "node_modules"
+def default_output(args: argparse.Namespace) -> Path:
+    name = getattr(args, "project", DEFAULT_PROJECT)
+    project = VIDEO_PROJECTS[name]
+    return project["dir"] / "renders" / project["output"]
+
+
+def frame_times(args: argparse.Namespace) -> tuple[str, ...]:
+    name = getattr(args, "project", DEFAULT_PROJECT)
+    return VIDEO_PROJECTS[name]["frames"]
+
+
+def ensure_video_dir(video_dir: Path) -> None:
+    if not video_dir.exists():
+        raise SystemExit(f"Missing video project: {video_dir}")
+
+
+def ensure_deps(video_dir: Path) -> None:
+    ensure_video_dir(video_dir)
+    node_modules = video_dir / "node_modules"
     if not node_modules.exists():
-        run([npm_cmd(), "install"], cwd=VIDEO_DIR)
+        run([npm_cmd(), "install"], cwd=video_dir)
 
 
-def with_media_tools() -> dict[str, str]:
-    ensure_deps()
+def with_media_tools(video_dir: Path) -> dict[str, str]:
+    ensure_deps(video_dir)
     env = os.environ.copy()
 
-    ffmpeg_dir = VIDEO_DIR / "node_modules" / "@ffmpeg-installer"
-    ffprobe_dir = VIDEO_DIR / "node_modules" / "@ffprobe-installer"
+    ffmpeg_dir = video_dir / "node_modules" / "@ffmpeg-installer"
+    ffprobe_dir = video_dir / "node_modules" / "@ffprobe-installer"
 
     candidates = [
         ffmpeg_dir / "win32-x64",
@@ -62,31 +94,35 @@ def with_media_tools() -> dict[str, str]:
 
 
 def check(_: argparse.Namespace) -> None:
-    ensure_deps()
-    run([npm_cmd(), "run", "check"], cwd=VIDEO_DIR)
+    video_dir = project_dir(_)
+    ensure_deps(video_dir)
+    run([npm_cmd(), "run", "check"], cwd=video_dir)
 
 
 def render(args: argparse.Namespace) -> None:
-    output = Path(args.output).resolve() if args.output else DEFAULT_OUTPUT
+    video_dir = project_dir(args)
+    output = Path(args.output).resolve() if args.output else default_output(args)
     output.parent.mkdir(parents=True, exist_ok=True)
     run(
         [npm_cmd(), "run", "render", "--", "--output", str(output)],
-        cwd=VIDEO_DIR,
-        env=with_media_tools(),
+        cwd=video_dir,
+        env=with_media_tools(video_dir),
     )
 
 
 def preview(args: argparse.Namespace) -> None:
-    ensure_deps()
-    run([npm_cmd(), "run", "dev", "--", "--port", str(args.port)], cwd=VIDEO_DIR)
+    video_dir = project_dir(args)
+    ensure_deps(video_dir)
+    run([npm_cmd(), "run", "dev", "--", "--port", str(args.port)], cwd=video_dir)
 
 
 def probe(args: argparse.Namespace) -> None:
-    target = Path(args.file).resolve() if args.file else DEFAULT_OUTPUT
+    video_dir = project_dir(args)
+    target = Path(args.file).resolve() if args.file else default_output(args)
     if not target.exists():
         raise SystemExit(f"Missing media file: {target}")
 
-    ffprobe = shutil.which("ffprobe", path=with_media_tools()["PATH"])
+    ffprobe = shutil.which("ffprobe", path=with_media_tools(video_dir)["PATH"])
     if not ffprobe:
         raise SystemExit("ffprobe not available. Run: python ops.py install")
 
@@ -102,7 +138,7 @@ def probe(args: argparse.Namespace) -> None:
             "json",
             str(target),
         ],
-        cwd=str(VIDEO_DIR),
+        cwd=str(video_dir),
         check=True,
         capture_output=True,
         text=True,
@@ -126,17 +162,18 @@ def probe(args: argparse.Namespace) -> None:
 
 
 def frames(args: argparse.Namespace) -> None:
-    target = Path(args.file).resolve() if args.file else DEFAULT_OUTPUT
+    video_dir = project_dir(args)
+    target = Path(args.file).resolve() if args.file else default_output(args)
     if not target.exists():
         raise SystemExit(f"Missing media file: {target}")
 
-    ffmpeg = shutil.which("ffmpeg", path=with_media_tools()["PATH"])
+    ffmpeg = shutil.which("ffmpeg", path=with_media_tools(video_dir)["PATH"])
     if not ffmpeg:
         raise SystemExit("ffmpeg not available. Run: python ops.py install")
 
-    out_dir = VIDEO_DIR / "renders" / "frames"
+    out_dir = video_dir / "renders" / "frames"
     out_dir.mkdir(parents=True, exist_ok=True)
-    for stamp in FRAME_TIMES:
+    for stamp in frame_times(args):
         label = stamp.split(":")[-1]
         run(
             [
@@ -150,17 +187,18 @@ def frames(args: argparse.Namespace) -> None:
                 "1",
                 str(out_dir / f"frame-{label}s.png"),
             ],
-            cwd=VIDEO_DIR,
-            env=with_media_tools(),
+            cwd=video_dir,
+            env=with_media_tools(video_dir),
         )
 
 
-def install(_: argparse.Namespace) -> None:
-    run([npm_cmd(), "install"], cwd=VIDEO_DIR)
+def install(args: argparse.Namespace) -> None:
+    run([npm_cmd(), "install"], cwd=project_dir(args))
 
 
-def clean(_: argparse.Namespace) -> None:
-    for path in (VIDEO_DIR / "renders", VIDEO_DIR / ".hyperframes"):
+def clean(args: argparse.Namespace) -> None:
+    video_dir = project_dir(args)
+    for path in (video_dir / "renders", video_dir / ".hyperframes"):
         resolved = path.resolve()
         if ROOT not in resolved.parents:
             raise SystemExit(f"Refusing to clean outside project: {resolved}")
@@ -178,26 +216,45 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Minzhishi project operations")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    sub.add_parser("install", help="Install external video-tool dependencies").set_defaults(func=install)
-    sub.add_parser("check", help="Run HyperFrames checks").set_defaults(func=check)
+    def add_project_arg(command: argparse.ArgumentParser) -> None:
+        command.add_argument(
+            "--project",
+            choices=sorted(VIDEO_PROJECTS),
+            default=DEFAULT_PROJECT,
+            help=f"Video project, default: {DEFAULT_PROJECT}",
+        )
+
+    install_parser = sub.add_parser("install", help="Install external video-tool dependencies")
+    add_project_arg(install_parser)
+    install_parser.set_defaults(func=install)
+
+    check_parser = sub.add_parser("check", help="Run HyperFrames checks")
+    add_project_arg(check_parser)
+    check_parser.set_defaults(func=check)
 
     render_parser = sub.add_parser("render", help="Render the launch video")
-    render_parser.add_argument("--output", help=f"Output path, default: {DEFAULT_OUTPUT}")
+    add_project_arg(render_parser)
+    render_parser.add_argument("--output", help="Output path, default: project render path")
     render_parser.set_defaults(func=render)
 
     preview_parser = sub.add_parser("preview", help="Start HyperFrames preview server")
+    add_project_arg(preview_parser)
     preview_parser.add_argument("--port", type=int, default=3017)
     preview_parser.set_defaults(func=preview)
 
     probe_parser = sub.add_parser("probe", help="Print rendered video metadata")
-    probe_parser.add_argument("--file", help=f"Media file, default: {DEFAULT_OUTPUT}")
+    add_project_arg(probe_parser)
+    probe_parser.add_argument("--file", help="Media file, default: project render path")
     probe_parser.set_defaults(func=probe)
 
     frames_parser = sub.add_parser("frames", help="Extract key frames for visual review")
-    frames_parser.add_argument("--file", help=f"Media file, default: {DEFAULT_OUTPUT}")
+    add_project_arg(frames_parser)
+    frames_parser.add_argument("--file", help="Media file, default: project render path")
     frames_parser.set_defaults(func=frames)
 
-    sub.add_parser("clean", help="Remove local render/cache outputs").set_defaults(func=clean)
+    clean_parser = sub.add_parser("clean", help="Remove local render/cache outputs")
+    add_project_arg(clean_parser)
+    clean_parser.set_defaults(func=clean)
 
     args = parser.parse_args()
     args.func(args)

@@ -63,6 +63,12 @@
 - 抽取关键帧：`python ops.py frames`
 - 启动预览：`python ops.py preview`
 
+默认视频项目为 `first-video`。如需操作 MZS-2026-001 公开视频，追加项目参数：
+
+- 检查：`python ops.py check --project support-video-001-youxx`
+- 渲染：`python ops.py render --project support-video-001-youxx`
+- 抽帧：`python ops.py frames --project support-video-001-youxx`
+
 Git 只保留源码、规则、文案、配置和项目自有资产；`node_modules/`、渲染视频、抽帧图片、缓存、日志等工程性外部可获取或可再生成内容不纳入版本管理。
 
 ## 重要说明
