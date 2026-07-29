@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440" role="img" aria-labelledby="title desc">
+  <title id="title">MZS-2026-001 第一笔转账公开脱敏凭证</title>
+  <desc id="desc">敏之诗第一期第一笔银行转账公开记录，仅保留日期、金额、备注、匿名编号和支付状态。</desc>
+  <rect width="1080" height="1440" fill="#f7f4ed"/>
+  <rect x="84" y="92" width="912" height="1256" rx="18" fill="#fffdf8" stroke="#d8d0c3" stroke-width="2"/>
+  <text x="132" y="178" fill="#36322d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="40" font-weight="700">敏之诗公开脱敏转账凭证</text>
+  <text x="132" y="232" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="24">Public redacted transfer record</text>
+  <line x1="132" y1="285" x2="948" y2="285" stroke="#ded7cb" stroke-width="2"/>
+
+  <text x="132" y="365" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28">编号</text>
+  <text x="408" y="365" fill="#2f2b26" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="34">MZS-2026-001</text>
+
+  <text x="132" y="455" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28">期数</text>
+  <text x="408" y="455" fill="#2f2b26" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="34">第 1/6 月</text>
+
+  <text x="132" y="545" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28">执行时间</text>
+  <text x="408" y="545" fill="#2f2b26" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="34">2026-07-29 12:58</text>
+
+  <text x="132" y="635" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28">转账方式</text>
+  <text x="408" y="635" fill="#2f2b26" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="34">银行转账</text>
+
+  <text x="132" y="725" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28">金额</text>
+  <text x="408" y="725" fill="#9b2f28" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="50" font-weight="700">人民币 300 元</text>
+
+  <text x="132" y="825" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28">备注</text>
+  <text x="408" y="825" fill="#2f2b26" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="34">敏之诗无偿资助</text>
+
+  <text x="132" y="915" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="28">公开状态</text>
+  <text x="408" y="915" fill="#2f2b26" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="34">已脱敏公开</text>
+
+  <rect x="132" y="1005" width="816" height="170" rx="12" fill="#f3efe6" stroke="#e2dacd" stroke-width="2"/>
+  <text x="170" y="1060" fill="#6d6459" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="24">不公开内容</text>
+  <text x="170" y="1110" fill="#6d6459" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="26">真实姓名、账号、卡号、完整流水号、余额、二维码、聊天内容</text>
+
+  <text x="132" y="1248" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="24">说明：本记录仅表示敏之诗主办方个人小额无偿支持。</text>
+  <text x="132" y="1290" fill="#81786d" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="24">不表示公开募捐、公众捐款或公益慈善组织行为。</text>
+</svg>

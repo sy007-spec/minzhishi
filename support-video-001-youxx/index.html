@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MZS-2026-001 公开视频</title>
+    <title>MZS-2026-001 第一笔转账公开记录</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <style>
       html,
@@ -11,7 +11,7 @@
         margin: 0;
         width: 100%;
         height: 100%;
-        background: #f6f3ec;
+        background: #f7f4ed;
         font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
       }
 
@@ -40,6 +40,11 @@
         src: local("Microsoft YaHei");
       }
 
+      @font-face {
+        font-family: "SimHei";
+        src: local("SimHei");
+      }
+
       #support-video-root {
         position: relative;
         width: 1080px;
@@ -52,9 +57,9 @@
         position: absolute;
         inset: 0;
         background:
-          linear-gradient(rgba(246, 243, 236, 0.86), rgba(246, 243, 236, 0.9)),
-          radial-gradient(circle at 24% 12%, rgba(160, 166, 151, 0.18), transparent 28%),
-          radial-gradient(circle at 82% 82%, rgba(173, 141, 112, 0.14), transparent 32%),
+          linear-gradient(rgba(247, 244, 237, 0.9), rgba(247, 244, 237, 0.88)),
+          radial-gradient(circle at 24% 12%, rgba(90, 126, 119, 0.14), transparent 30%),
+          radial-gradient(circle at 86% 76%, rgba(151, 91, 72, 0.12), transparent 34%),
           url("./assets/paper-ink-bg.png");
         background-size: cover;
       }
@@ -62,12 +67,12 @@
       .grain {
         position: absolute;
         inset: 0;
-        opacity: 0.22;
+        opacity: 0.2;
         background-image:
           linear-gradient(rgba(78, 74, 66, 0.08) 1px, transparent 1px),
           linear-gradient(90deg, rgba(78, 74, 66, 0.08) 1px, transparent 1px);
         background-size: 32px 32px;
-        mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 74%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 76%, transparent 100%);
       }
 
       .clip {
@@ -79,14 +84,14 @@
         position: absolute;
         left: 86px;
         right: 86px;
-        top: 145px;
-        bottom: 145px;
+        top: 132px;
+        bottom: 122px;
       }
 
       .kicker {
         font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
-        font-size: 30px;
-        color: #726b61;
+        font-size: 29px;
+        color: #746d63;
         letter-spacing: 0;
       }
 
@@ -97,121 +102,154 @@
       }
 
       h1 {
-        margin-top: 110px;
-        max-width: 820px;
-        font-size: 76px;
-        line-height: 1.2;
+        margin-top: 118px;
+        max-width: 830px;
+        font-size: 74px;
+        line-height: 1.22;
         font-weight: 500;
       }
 
       h2 {
-        font-size: 56px;
-        line-height: 1.26;
+        margin-top: 72px;
+        max-width: 830px;
+        font-size: 58px;
+        line-height: 1.28;
         font-weight: 500;
       }
 
       .body {
-        margin-top: 36px;
-        max-width: 760px;
+        margin-top: 42px;
+        max-width: 800px;
         font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
         font-size: 32px;
         line-height: 1.72;
-        color: #4b4640;
+        color: #4a453e;
       }
 
-      .number {
-        margin-top: 130px;
-        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
-        font-size: 118px;
-        line-height: 1;
-        font-weight: 300;
-        color: #5d584f;
-      }
-
-      .terms {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 110px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 22px;
-        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      }
-
-      .term {
-        border-top: 1px solid rgba(74, 70, 63, 0.22);
-        padding-top: 20px;
-      }
-
-      .term strong {
+      .body span,
+      .quote span,
+      .thought span {
         display: block;
-        font-size: 38px;
-        font-weight: 500;
-      }
-
-      .term span {
-        display: block;
-        margin-top: 10px;
-        font-size: 24px;
-        color: #71695f;
-      }
-
-      .quote {
-        position: absolute;
-        left: 90px;
-        right: 90px;
-        top: 455px;
-        font-size: 46px;
-        line-height: 1.78;
-        font-weight: 400;
-        color: #36322d;
-      }
-
-      .quote.small {
-        top: 380px;
-        font-size: 42px;
-        line-height: 1.9;
-      }
-
-      .quote span {
-        display: block;
-      }
-
-      .caption {
-        position: absolute;
-        left: 120px;
-        right: 120px;
-        bottom: 190px;
-        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
-        font-size: 26px;
-        line-height: 1.6;
-        color: #746d63;
       }
 
       .seal {
         position: absolute;
-        right: 88px;
-        bottom: 96px;
-        width: 112px;
-        height: 112px;
+        right: 86px;
+        bottom: 112px;
+        width: 124px;
+        height: 124px;
         display: grid;
         place-items: center;
-        border: 1px solid rgba(130, 52, 38, 0.45);
+        border: 1px solid rgba(130, 52, 38, 0.42);
         color: #8c382d;
-        font-size: 28px;
-        line-height: 1.1;
+        font-size: 26px;
+        line-height: 1.18;
         text-align: center;
         font-family: "Noto Serif SC", "Songti SC", serif;
       }
 
+      .receipt {
+        margin-top: 92px;
+        width: 806px;
+        padding: 46px 50px 42px;
+        background: rgba(255, 253, 248, 0.86);
+        border: 1px solid rgba(156, 143, 128, 0.34);
+        box-shadow: 0 18px 54px rgba(74, 68, 59, 0.11);
+      }
+
+      .receipt-title {
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 34px;
+        color: #3c3731;
+      }
+
+      .receipt-grid {
+        margin-top: 42px;
+        display: grid;
+        gap: 28px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        gap: 28px;
+        align-items: baseline;
+      }
+
+      .label {
+        font-size: 26px;
+        color: #81786c;
+      }
+
+      .value {
+        font-size: 34px;
+        color: #2f2b26;
+      }
+
+      .amount {
+        color: #9b2f28;
+        font-size: 52px;
+        font-weight: 700;
+      }
+
+      .receipt-note {
+        margin-top: 46px;
+        padding-top: 28px;
+        border-top: 1px solid rgba(156, 143, 128, 0.28);
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 24px;
+        line-height: 1.6;
+        color: #746d63;
+      }
+
+      .quote {
+        position: absolute;
+        left: 86px;
+        right: 86px;
+        top: 410px;
+        font-size: 44px;
+        line-height: 1.84;
+        color: #36322d;
+      }
+
+      .quote.compact {
+        top: 342px;
+        font-size: 40px;
+        line-height: 1.9;
+      }
+
+      .caption {
+        position: absolute;
+        left: 110px;
+        right: 110px;
+        bottom: 168px;
+        font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        font-size: 25px;
+        line-height: 1.58;
+        color: #746d63;
+      }
+
+      .thought {
+        margin-top: 86px;
+        max-width: 820px;
+        font-size: 48px;
+        line-height: 1.7;
+        color: #34302b;
+      }
+
+      .thought strong {
+        color: #8b463b;
+        font-weight: 500;
+      }
+
       .rule-list {
-        margin-top: 62px;
+        margin-top: 66px;
         display: grid;
         gap: 30px;
         font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
-        font-size: 35px;
-        line-height: 1.45;
+        font-size: 33px;
+        line-height: 1.46;
         color: #47423b;
       }
 
@@ -234,65 +272,106 @@
         position: absolute;
         left: 86px;
         right: 86px;
-        bottom: 92px;
+        bottom: 84px;
         font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
-        font-size: 24px;
+        font-size: 23px;
         line-height: 1.55;
-        color: #776f65;
+        color: #6d655b;
       }
     </style>
   </head>
   <body>
-    <div data-hf-id="hf-hnas" id="support-video-root" data-composition-id="support-video-001-youxx" data-start="0" data-duration="42" data-fps="30" data-width="1080" data-height="1920">
-      <div data-hf-id="hf-2ava" class="paper"></div>
-      <div data-hf-id="hf-h60x" class="grain"></div>
+    <div data-hf-id="hf-root" id="support-video-root" data-composition-id="support-video-001-youxx" data-start="0" data-duration="60" data-fps="30" data-width="1080" data-height="1920">
+      <div data-hf-id="hf-paper" class="paper"></div>
+      <div data-hf-id="hf-grain" class="grain"></div>
 
-      <section data-hf-id="hf-u9zk" id="scene-intro" class="clip scene scene-1" data-start="0" data-duration="7">
-        <div data-hf-id="hf-zbmn" class="safe">
-          <p data-hf-id="hf-kkzp" class="kicker">敏之诗 / MZS-2026-001</p>
-          <h1 data-hf-id="hf-hwli">第一位诗人支持关系准备建立</h1>
-          <p data-hf-id="hf-wbyf" class="body">公开资料使用脱敏称呼：游XX先生。真实身份、收款信息、协议签署版不公开。</p>
-          <div data-hf-id="hf-oypi" class="seal">敏之<br data-hf-id="hf-x5px">诗</div>
+      <section data-hf-id="hf-scene-intro" id="scene-intro" class="clip scene scene-1" data-start="0" data-duration="7">
+        <div data-hf-id="hf-intro-safe" class="safe">
+          <p data-hf-id="hf-intro-kicker" class="kicker">敏之诗 / MZS-2026-001</p>
+          <h1 data-hf-id="hf-intro-title">第一期诗人小额支持已经开始</h1>
+          <p data-hf-id="hf-intro-body" class="body">
+            <span>公开资料使用脱敏称呼：游XX先生。</span>
+            <span>真实身份、收款信息、签署协议和原始凭证不公开。</span>
+          </p>
+          <div data-hf-id="hf-intro-seal" class="seal"><span>敏之诗</span></div>
         </div>
       </section>
 
-      <section data-hf-id="hf-x2ta" id="scene-terms" class="clip scene scene-2" data-start="7" data-duration="8">
-        <div data-hf-id="hf-nz8f" class="safe">
-          <p data-hf-id="hf-y72x" class="kicker">第一期小额支持</p>
-          <div data-hf-id="hf-3nvp" class="number">6个月</div>
-          <div data-hf-id="hf-wyah" class="terms">
-            <div data-hf-id="hf-d8se" class="term"><strong data-hf-id="hf-vp8f">300元/月</strong><span data-hf-id="hf-rknb">发起人个人合法收入</span></div>
-            <div data-hf-id="hf-nwrm" class="term"><strong data-hf-id="hf-sz8a">不募捐</strong><span data-hf-id="hf-j7d6">不代收第三方资金</span></div>
+      <section data-hf-id="hf-scene-transfer" id="scene-transfer" class="clip scene scene-2" data-start="7" data-duration="10">
+        <div data-hf-id="hf-transfer-safe" class="safe">
+          <p data-hf-id="hf-transfer-kicker" class="kicker">第一笔转账公开脱敏记录</p>
+          <div data-hf-id="hf-receipt" class="receipt">
+            <p data-hf-id="hf-receipt-title" class="receipt-title">银行转账 / 第 1/6 月</p>
+            <div data-hf-id="hf-receipt-grid" class="receipt-grid">
+              <div data-hf-id="hf-row-time" class="row"><span class="label">执行时间</span><span class="value">2026-07-29 12:58</span></div>
+              <div data-hf-id="hf-row-amount" class="row"><span class="label">金额</span><span class="value amount">人民币 300 元</span></div>
+              <div data-hf-id="hf-row-note" class="row"><span class="label">备注</span><span class="value">敏之诗无偿资助</span></div>
+              <div data-hf-id="hf-row-status" class="row"><span class="label">状态</span><span class="value">已执行，公开凭证已脱敏</span></div>
+            </div>
+            <p data-hf-id="hf-receipt-note" class="receipt-note">银行卡号、姓名、流水号、账号标识和其他敏感信息只做私密留存。</p>
           </div>
         </div>
       </section>
 
-      <section data-hf-id="hf-iv5w" id="scene-first-quote" class="clip scene scene-3" data-start="15" data-duration="8">
-        <div data-hf-id="hf-nkxe" class="safe">
-          <p data-hf-id="hf-c8z1" class="kicker">诗歌短摘句</p>
-          <p data-hf-id="hf-aumd" class="quote">“我尝试在上面找到立足之点。”</p>
-          <p data-hf-id="hf-k8b5" class="caption">摘自受资助人提供资料《野兽和花朵》。作品著作权仍归作者所有。</p>
+      <section data-hf-id="hf-scene-quote-one" id="scene-quote-one" class="clip scene scene-3" data-start="17" data-duration="8">
+        <div data-hf-id="hf-quote-one-safe" class="safe">
+          <p data-hf-id="hf-quote-one-kicker" class="kicker">诗集《野兽和花朵》短摘句</p>
+          <p data-hf-id="hf-quote-one" class="quote compact">
+            <span>“这个春天</span>
+            <span>迟迟不动心</span>
+            <span>站在樱花树下</span>
+            <span>独享一人的愉悦”</span>
+          </p>
+          <p data-hf-id="hf-quote-one-caption" class="caption">短摘句来自诗人主动提供给敏之诗的诗集资料。</p>
         </div>
       </section>
 
-      <section data-hf-id="hf-olhl" id="scene-second-quote" class="clip scene scene-4" data-start="23" data-duration="10">
-        <div data-hf-id="hf-n6md" class="safe">
-          <p data-hf-id="hf-4r35" class="kicker">诗歌短摘句</p>
-          <p data-hf-id="hf-rk6s" class="quote small"><span data-hf-id="hf-czhv">“紫藤开在这个闷热的午后</span><span data-hf-id="hf-m6wr">街上一辆洒水车轰隆驶过</span><span data-hf-id="hf-1yc8">淡紫色的风铃声</span><span data-hf-id="hf-eu9o">在我心头荡漾开一丝凉意”</span></p>
-          <p data-hf-id="hf-ulze" class="caption">仅展示短摘句；不公开困难细节，不消费个人处境。</p>
+      <section data-hf-id="hf-scene-quote-two" id="scene-quote-two" class="clip scene scene-4" data-start="25" data-duration="8">
+        <div data-hf-id="hf-quote-two-safe" class="safe">
+          <p data-hf-id="hf-quote-two-kicker" class="kicker">诗集《野兽和花朵》短摘句</p>
+          <p data-hf-id="hf-quote-two" class="quote">
+            <span>“天空，屋顶，清风</span>
+            <span>阳光，绿萝，桌子</span>
+            <span>美好的一天总是从</span>
+            <span>你的莞尔一笑开始”</span>
+          </p>
         </div>
       </section>
 
-      <section data-hf-id="hf-n0qp" id="scene-rules" class="clip scene scene-5" data-start="33" data-duration="9">
-        <div data-hf-id="hf-pyrk" class="safe">
-          <p data-hf-id="hf-376f" class="kicker">公开规则</p>
-          <h2 data-hf-id="hf-bszg">让帮助保持清楚，也保持边界</h2>
-          <div data-hf-id="hf-tb5b" class="rule-list">
-            <div data-hf-id="hf-a46i" class="rule"><span data-hf-id="hf-9gry" class="dot"></span><span data-hf-id="hf-qveb">不是工资、稿费、借款或版权交易</span></div>
-            <div data-hf-id="hf-ya9a" class="rule"><span data-hf-id="hf-zcc2" class="dot"></span><span data-hf-id="hf-kqtn">不要求感谢、宣传、站台或交稿</span></div>
-            <div data-hf-id="hf-yokb" class="rule"><span data-hf-id="hf-zqn3" class="dot"></span><span data-hf-id="hf-aza3">公开资料永久脱敏保存在 GitHub</span></div>
+      <section data-hf-id="hf-scene-quote-three" id="scene-quote-three" class="clip scene scene-5" data-start="33" data-duration="8">
+        <div data-hf-id="hf-quote-three-safe" class="safe">
+          <p data-hf-id="hf-quote-three-kicker" class="kicker">诗集《野兽和花朵》短摘句</p>
+          <p data-hf-id="hf-quote-three" class="quote">
+            <span>“阳光有种古旧的朴素的感觉</span>
+            <span>天下过了雨，山峰轮廓分明</span>
+            <span>天际渗出一抹清凉的蓝”</span>
+          </p>
+          <p data-hf-id="hf-quote-three-caption" class="caption">作品著作权仍归作者所有；敏之诗只做授权范围内的公开展示。</p>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-scene-thought" id="scene-thought" class="clip scene scene-6" data-start="41" data-duration="10">
+        <div data-hf-id="hf-thought-safe" class="safe">
+          <p data-hf-id="hf-thought-kicker" class="kicker">敏之诗主办方的话</p>
+          <p data-hf-id="hf-thought" class="thought">
+            <span>AI 还无法替代人类写诗，</span>
+            <span>因为诗歌需要<strong>爱</strong>。</span>
+            <span>只要诗人用心写，</span>
+            <span>就能让人感到生活的美好。</span>
+          </p>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-scene-rules" id="scene-rules" class="clip scene scene-7" data-start="51" data-duration="9">
+        <div data-hf-id="hf-rules-safe" class="safe">
+          <p data-hf-id="hf-rules-kicker" class="kicker">公开规则</p>
+          <h2 data-hf-id="hf-rules-title">帮助要发生，也要留下边界</h2>
+          <div data-hf-id="hf-rules-list" class="rule-list">
+            <div data-hf-id="hf-rule-one" class="rule"><span class="dot"></span><span>个人合法收入支持，不接受公众捐款</span></div>
+            <div data-hf-id="hf-rule-two" class="rule"><span class="dot"></span><span>银行转账优先，公开凭证充分脱敏</span></div>
+            <div data-hf-id="hf-rule-three" class="rule"><span class="dot"></span><span>不要求感谢、宣传、站台或交稿</span></div>
           </div>
-          <p data-hf-id="hf-qhcc" class="footer">敏之诗第一阶段暂不接受公众捐款。所有敏感材料只做内部留存。</p>
+          <p data-hf-id="hf-rules-footer" class="footer">公开资料长期保存在 GitHub。所有真实身份、账户信息、原始回单与沟通记录只做私密留存。</p>
         </div>
       </section>
     </div>
@@ -304,29 +383,38 @@
 
       gsap.set(".scene .safe", { opacity: 0, y: 26 });
       gsap.set(".seal", { opacity: 0, scale: 0.92 });
+      gsap.set(".receipt", { opacity: 0, y: 22 });
       gsap.set(".quote", { opacity: 0, y: 22 });
-      gsap.set(".term", { opacity: 0, y: 18 });
+      gsap.set(".thought span", { opacity: 0, y: 18 });
       gsap.set(".rule", { opacity: 0, y: 16 });
 
       const enterScene = (selector, at) => {
-        tl.to(`${selector} .safe`, { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }, at);
-        tl.to(`${selector} .safe`, { opacity: 0, y: -18, duration: 0.8, ease: "power2.in" }, at + Number(document.querySelector(selector).dataset.duration) - 0.9);
+        const scene = document.querySelector(selector);
+        const duration = Number(scene.dataset.duration);
+        tl.to(`${selector} .safe`, { opacity: 1, y: 0, duration: 0.95, ease: "power2.out" }, at + 0.2);
+        tl.to(`${selector} .safe`, { opacity: 0, y: -18, duration: 0.75, ease: "power2.in" }, at + duration - 0.85);
       };
 
-      enterScene(".scene-1", 0.2);
-      tl.to(".scene-1 .seal", { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, 1.6);
+      enterScene(".scene-1", 0);
+      tl.to(".scene-1 .seal", { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" }, 1.5);
 
-      enterScene(".scene-2", 7.2);
-      tl.to(".scene-2 .term", { opacity: 1, y: 0, duration: 0.8, stagger: 0.16, ease: "power2.out" }, 9.8);
+      enterScene(".scene-2", 7);
+      tl.to(".scene-2 .receipt", { opacity: 1, y: 0, duration: 0.95, ease: "power2.out" }, 8.4);
 
-      enterScene(".scene-3", 15.2);
-      tl.to(".scene-3 .quote", { opacity: 1, y: 0, duration: 1.1, ease: "power2.out" }, 16.5);
+      enterScene(".scene-3", 17);
+      tl.to(".scene-3 .quote", { opacity: 1, y: 0, duration: 1.05, ease: "power2.out" }, 18.4);
 
-      enterScene(".scene-4", 23.2);
-      tl.to(".scene-4 .quote", { opacity: 1, y: 0, duration: 1.1, ease: "power2.out" }, 24.4);
+      enterScene(".scene-4", 25);
+      tl.to(".scene-4 .quote", { opacity: 1, y: 0, duration: 1.05, ease: "power2.out" }, 26.4);
 
-      enterScene(".scene-5", 33.2);
-      tl.to(".scene-5 .rule", { opacity: 1, y: 0, duration: 0.65, stagger: 0.18, ease: "power2.out" }, 36.0);
+      enterScene(".scene-5", 33);
+      tl.to(".scene-5 .quote", { opacity: 1, y: 0, duration: 1.05, ease: "power2.out" }, 34.4);
+
+      enterScene(".scene-6", 41);
+      tl.to(".scene-6 .thought span", { opacity: 1, y: 0, duration: 0.7, stagger: 0.28, ease: "power2.out" }, 42.6);
+
+      enterScene(".scene-7", 51);
+      tl.to(".scene-7 .rule", { opacity: 1, y: 0, duration: 0.65, stagger: 0.18, ease: "power2.out" }, 54.0);
 
       window.__timelines = window.__timelines || {};
       window.__timelines[id] = tl;

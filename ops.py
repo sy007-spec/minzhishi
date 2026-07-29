@@ -26,7 +26,7 @@ VIDEO_PROJECTS = {
     "support-video-001-youxx": {
         "dir": ROOT / "support-video-001-youxx",
         "output": "mzs-2026-001-youxx-public.mp4",
-        "frames": ("00:00:03", "00:00:18", "00:00:28", "00:00:38"),
+        "frames": ("00:00:03", "00:00:11", "00:00:20", "00:00:29", "00:00:37", "00:00:46", "00:00:56"),
     },
 }
 DEFAULT_PROJECT = "first-video"
@@ -104,7 +104,7 @@ def render(args: argparse.Namespace) -> None:
     output = Path(args.output).resolve() if args.output else default_output(args)
     output.parent.mkdir(parents=True, exist_ok=True)
     run(
-        [npm_cmd(), "run", "render", "--", "--output", str(output)],
+        [npm_cmd(), "run", "render", "--", "--quality", args.quality, "--output", str(output)],
         cwd=video_dir,
         env=with_media_tools(video_dir),
     )
@@ -234,6 +234,7 @@ def main() -> int:
 
     render_parser = sub.add_parser("render", help="Render the launch video")
     add_project_arg(render_parser)
+    render_parser.add_argument("--quality", choices=("draft", "standard", "high"), default="high")
     render_parser.add_argument("--output", help="Output path, default: project render path")
     render_parser.set_defaults(func=render)
 
